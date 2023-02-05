@@ -294,6 +294,7 @@ function App(){
         <Route path="/movie/:id" element={<MovieDetails  />} />
         <Route path="/addmovie" element={<AddMovie />} />
         <Route path="/basic-form" element={<BasicForm />} />
+        <Route path="/add-form" element={<AddMovieForm />} />
           
         {/* <Route path="/movielist/add" element={<AddMovie movieList={movieList} setMovieList={setMovieList} />} /> */}
       </Routes>
@@ -329,4 +330,31 @@ function BasicForm(){
   </form>
   
   </div>)
+}
+const movieformvalidationSchema = yup.object({
+  name:yup.string().min(4)
+})
+
+function AddMovieForm(){
+  const formik = useFormik({
+    initialValues : {
+       name:"",
+       poster:"",
+       rating:"",
+       summary:"",
+
+    }
+  ,
+  validationSchema: movieformvalidationSchema,
+  })
+  return<div  >
+    <form  className="movieform" onSubmit={formik.handleSubmit}>
+    <input onChange={formik.handleChange} onBlur={formik.handleBlur} name="name" type="text" placeholder="name"/>
+    {formik.errors.name}
+    <input onChange={formik.handleChange} name="poster" type="text" onBlur={formik.handleBlur} placeholder="poster"/>
+    <input name="rating" type="text" onChange={formik.handleChange} placeholder="rating" onBlur={formik.handleBlur}/>
+    <input name="summary" type="text" placeholder="summary" onChange={formik.handleChange} onBlur={formik.handleBlur}/>
+    <button type="submit">submit</button> 
+    </form>
+  </div>
 }
